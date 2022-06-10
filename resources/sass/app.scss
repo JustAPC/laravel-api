@@ -1,0 +1,27 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+.fs-1 {
+    font-size: 2.5rem;
+}
+.fs-2 {
+    font-size: 2rem;
+}
+.fs-3 {
+    font-size: 1.75rem;
+}
+.fs-4 {
+    font-size: 1.5rem;
+}
+.fs-5 {
+    font-size: 1.25rem;
+}
+.formfield * {
+    vertical-align: top;
+}
