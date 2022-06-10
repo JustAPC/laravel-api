@@ -7,6 +7,7 @@
 @section('content')
     @if (session('message-edit'))
         <div class="alert alert-success fs-5">
+            <span>Il post</span>
             <span class="text-uppercase text-primary">{{ session('message-edit') }}</span>
             <span>è stato modificato con successo</span>
         </div>

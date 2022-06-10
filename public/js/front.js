@@ -13008,7 +13008,7 @@ var root = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\andre\Desktop\Boolean\PHP\LARAVEL\laravel-one-to-many\resources\js\front.js */"./resources/js/front.js");
+module.exports = __webpack_require__(/*! C:\Users\andre\Desktop\Boolean\PHP\LARAVEL\laravel-many-to-many\resources\js\front.js */"./resources/js/front.js");
 
 
 /***/ })

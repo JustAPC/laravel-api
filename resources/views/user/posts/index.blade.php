@@ -7,6 +7,7 @@
 @section('content')
     @if (session('message-delete'))
         <div class="alert alert-success fs-5">
+            <span>Il post</span>
             <span class="text-uppercase text-primary">{{ session('message-delete') }}</span>
             <span>è stato eliminato con successo</span>
         </div>
@@ -30,6 +31,7 @@
         <table class="mb-0 pb-3 table table-hover table-dark">
             <thead class="table-head">
                 <tr>
+                    <th scope="col">Author</th>
                     <th scope="col">Title</th>
                     <th scope="col">Content</th>
                     <th scope="col">Slug</th>
@@ -42,7 +44,8 @@
             <tbody>
                 @forelse ($posts as $post)
                     <tr class="table-row">
-                        <th scope="row">{{ $post->title }}</th>
+                        <th scope="row">{{ $post->User->name }}</th>
+                        <td>{{ $post->title }}</td>
                         <td class="col-3">{{ $post->content }}</td>
                         <td>{{ $post->slug }}</td>
                         <td class="col-1">

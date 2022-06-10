@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Category;
+use App\User;
 
 class PostController extends Controller
 {
