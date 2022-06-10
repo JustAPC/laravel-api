@@ -28,59 +28,61 @@
             </form>
         </div>
 
-        <table class="mb-0 pb-3 table table-hover table-dark">
-            <thead class="table-head">
-                <tr>
-                    <th scope="col">Author</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Content</th>
-                    <th scope="col">Slug</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">Tags</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($posts as $post)
-                    <tr class="table-row">
-                        <th scope="row">{{ $post->User->name }}</th>
-                        <td>{{ $post->title }}</td>
-                        <td class="col-3">{{ $post->content }}</td>
-                        <td>{{ $post->slug }}</td>
-                        <td class="col-1">
-                            @if ($post->Category)
-                                <span class="badge badge-pill badge-{{ $post->Category->color }}"
-                                    style="font-size: 1rem">{{ $post->Category->label }}</span>
-                            @else
-                                -
-                            @endif
-                        </td>
-                        <td><img src="{{ $post->image }}" alt="" width="80px"></td>
-                        <td>
-                            @forelse ($post->Tags as $tag)
-                                <span class="badge"
-                                    style="background-color: {{ $tag->color }}">{{ $tag->label }}</span>
-                            @empty
-                                Non ci sono tag abbinati
-                            @endforelse
-                        </td>
-                        <td class="col-2">
-                            <a href="{{ route('user.posts.show', $post->id) }}" class="btn btn-primary mr-2">View</a>
-                            <a href="{{ route('user.posts.edit', $post->id) }}" class="btn btn-warning mr-2">Edit</a>
-                            <form action="{{ route('user.posts.destroy', $post->id) }}" method="POST"
-                                class="d-inline delete-form" data-name="{{ $post->title }}">
-                                @csrf
-                                @method('DELETE')
-                                <input type="submit" value="Delete" class="btn btn-danger">
-                            </form>
-                        </td>
+        @if ($posts->count() > 0)
+            <table class="mb-0 pb-3 table table-hover table-dark">
+                <thead class="table-head">
+                    <tr>
+                        <th scope="col">Author</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Content</th>
+                        <th scope="col">Slug</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Tags</th>
+                        <th scope="col">Actions</th>
                     </tr>
-                @empty
-                    Non ci sono post!
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($posts as $post)
+                        <tr class="table-row">
+                            <th scope="row">{{ $post->User->name }}</th>
+                            <td>{{ $post->title }}</td>
+                            <td class="col-3">{{ $post->content }}</td>
+                            <td>{{ $post->slug }}</td>
+                            <td class="col-1">
+                                @if ($post->Category)
+                                    <span class="badge badge-pill badge-{{ $post->Category->color }}"
+                                        style="font-size: 1rem">{{ $post->Category->label }}</span>
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td><img src="{{ $post->image }}" alt="" width="80px"></td>
+                            <td>
+                                @forelse ($post->Tags as $tag)
+                                    <span class="badge"
+                                        style="background-color: {{ $tag->color }}">{{ $tag->label }}</span>
+                                @empty
+                                    Non ci sono tag abbinati
+                                @endforelse
+                            </td>
+                            <td class="col-2">
+                                <a href="{{ route('user.posts.show', $post->id) }}" class="btn btn-primary mr-2">View</a>
+                                <a href="{{ route('user.posts.edit', $post->id) }}" class="btn btn-warning mr-2">Edit</a>
+                                <form action="{{ route('user.posts.destroy', $post->id) }}" method="POST"
+                                    class="d-inline delete-form" data-name="{{ $post->title }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" value="Delete" class="btn btn-danger">
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        Non ci sono post!
+                    @endforelse
+                </tbody>
+            </table>
+        @endif
     </div>
     <div class="bg-dark py-3 pl-5">
         @if ($posts->hasPages())

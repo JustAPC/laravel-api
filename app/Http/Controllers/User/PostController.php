@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 
 class PostController extends Controller
@@ -19,6 +20,8 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        // $id = Auth::user()->id;
+        $currentUser = Auth::user();
 
         if ($request->has('title')) {
 
@@ -26,7 +29,8 @@ class PostController extends Controller
 
             $posts = Post::where('title', 'like', '%' . $title . '%')->get();
         } else {
-            $posts = Post::orderBy('updated_at', 'DESC')->paginate(5);
+            // $posts = Post::where('user_id', '=', $id)->orderBy('updated_at', 'DESC')->paginate(5);
+            $posts = $currentUser->posts()->orderBy('updated_at', 'DESC')->paginate(5);
         }
 
         return view('user.posts.index', compact('posts'));
