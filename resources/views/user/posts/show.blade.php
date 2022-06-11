@@ -23,12 +23,12 @@
 
             <div class="media-body col-1">
                 <div>
-                    @if ($post->Category)
-                        <span class="badge badge-pill badge-{{ $post->Category->color }}"
-                            style="font-size: 1rem">{{ $post->Category->label }}</span>
-                    @else
-                        -
-                    @endif
+                    <p>Categories:</p>
+                    @forelse ($post->Categories as $category)
+                        <span class="badge badge-{{ $category->color }}">{{ $category->label }}</span>
+                    @empty
+                        Non ci sono tag abbinati
+                    @endforelse
                 </div>
 
                 <div class="pt-5">

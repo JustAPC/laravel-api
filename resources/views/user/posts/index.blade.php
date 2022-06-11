@@ -50,12 +50,14 @@
                             <td class="col-3">{{ $post->content }}</td>
                             <td>{{ $post->slug }}</td>
                             <td class="col-1">
-                                @if ($post->Category)
-                                    <span class="badge badge-pill badge-{{ $post->Category->color }}"
-                                        style="font-size: 1rem">{{ $post->Category->label }}</span>
-                                @else
-                                    -
-                                @endif
+
+                                @forelse ($post->Categories as $category)
+                                    <span class="badge badge-pill badge-{{ $category->color }}"
+                                        style="font-size: 1rem">{{ $category->label }}</span>
+                                @empty
+                                    NONE
+                                @endforelse
+
                             </td>
                             <td><img src="{{ $post->image }}" alt="" width="80px"></td>
                             <td>

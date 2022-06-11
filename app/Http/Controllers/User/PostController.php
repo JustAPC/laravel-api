@@ -58,14 +58,17 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $currentUserId = Auth::id();
 
         $new_post = new Post();
         $new_post->fill($data);
+        $new_post->user_id = $currentUserId;
         $new_post->slug = Str::slug($request->title, '-');
         $new_post->save();
 
-        if (array_key_exists('tags', $data)) {
+        if (array_key_exists('tags', $data) && array_key_exists('categories', $data)) {
             $new_post->Tags()->attach($data['tags']);
+            $new_post->Categories()->attach($data['categories']);
         }
 
         return redirect()->route('user.posts.index', $new_post)->with('message-create', "$new_post->title");
@@ -94,8 +97,9 @@ class PostController extends Controller
         $tags = Tag::all();
 
         $selectedTags = $post->tags->pluck('id')->toArray();
+        $selectedCategories = $post->categories->pluck('id')->toArray();
 
-        return view('user.posts.edit', compact('post', 'categories', 'tags', 'selectedTags'));
+        return view('user.posts.edit', compact('post', 'categories', 'tags', 'selectedTags', 'selectedCategories'));
     }
 
     /**
@@ -109,13 +113,19 @@ class PostController extends Controller
     {
         $data = $request->all();
         $post['slug'] = Str::slug($request->title, '-');
-        $post->update($data);
 
         if (!array_key_exists('tags', $data)) {
             $post->Tags()->detach();
         } else {
             $post->Tags()->sync($data['tags']);
         }
+
+        if (!array_key_exists('categories', $data)) {
+            $post->Categories()->detach();
+        } else {
+            $post->Categories()->sync($data['categories']);
+        }
+        $post->update($data);
 
         return redirect()->route('user.posts.show', $post)->with('message-edit', "$post->title");
     }
