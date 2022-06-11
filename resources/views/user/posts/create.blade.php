@@ -24,14 +24,16 @@
                 </div>
 
                 <div class="media-body col-2">
-                    <label for="category">Category</label>
-                    <select name="category_id" id="category">
-                        <option value="">Seleziona una Categoria...</option>
-                        @foreach ($categories as $category)
-                            <option value=" {{ $category->id }} ">
-                                {{ $category->label }}</option>
-                        @endforeach
-                    </select>
+                    <p class="pt-5">Categories:</p>
+                    @foreach ($categories as $category)
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" id="category-{{ $category->id }}"
+                                value="{{ $category->id }}" name="categories[]"
+                                @if (in_array($category->id, old('categories', []))) checked @endif>
+                            <label for="category-{{ $category->id }}"
+                                class="form-check-label">{{ $category->label }}</label>
+                        </div>
+                    @endforeach
 
                     <p class="pt-5">Tags:</p>
                     @foreach ($tags as $tag)
