@@ -15,7 +15,11 @@
 
     <div class="col-6 mx-auto pt-5">
         <div class="media align-middle">
-            <img src="{{ $post->image }}" class="mr-3" alt="...">
+            @if (Str::startsWith($post->image, 'http'))
+                <img src="{{ $post->image }}" class="mr-3" alt="...">
+            @else
+                <img src="{{ asset("storage/$post->image") }}" alt="" class="mr-3" width="250px">
+            @endif
             <div class="media-body">
                 <h5 class="mt-0">{{ $post->title }}</h5>
                 <p>{{ $post->content }}</p>

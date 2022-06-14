@@ -30,10 +30,16 @@ class UserSeeder extends Seeder
 
         $user3 = new User();
 
-        $user3->name = 'paperino';
-        $user3->email = 'paperino@paperino.it';
-        $user3->password = bcrypt('pippopippo');
+        $user3->name = 'admin';
+        $user3->email = 'andrea.pontillo@libero.it';
+        $user3->password = bcrypt('adminadmin');
 
         $user3->save();
+
+        $user4 = new User();
+
+        $user4->name = 'paperino';
+        $user4->email = 'paperino@paperino.it';
+        $user4->password = bcrypt('paperinopaperino');
     }
 }

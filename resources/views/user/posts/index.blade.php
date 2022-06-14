@@ -59,31 +59,37 @@
                                 @endforelse
 
                             </td>
-                            <td><img src="{{ $post->image }}" alt="" width="80px"></td>
                             <td>
-                                @forelse ($post->Tags as $tag)
-                                    <span class="badge"
-                                        style="background-color: {{ $tag->color }}">{{ $tag->label }}</span>
-                                @empty
-                                    Non ci sono tag abbinati
-                                @endforelse
+                                @if (Str::startsWith($post->image, 'http'))
+                                    <img src="{{ $post->image }}" alt="" width="80px">
+                                @else
+                                    <img src="{{ asset("storage/$post->image") }}" alt="" width="80px">
                             </td>
-                            <td class="col-2">
-                                <a href="{{ route('user.posts.show', $post->id) }}" class="btn btn-primary mr-2">View</a>
-                                <a href="{{ route('user.posts.edit', $post->id) }}" class="btn btn-warning mr-2">Edit</a>
-                                <form action="{{ route('user.posts.destroy', $post->id) }}" method="POST"
-                                    class="d-inline delete-form" data-name="{{ $post->title }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" value="Delete" class="btn btn-danger">
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        Non ci sono post!
-                    @endforelse
-                </tbody>
-            </table>
+                    @endif
+                    <td>
+                        @forelse ($post->Tags as $tag)
+                            <span class="badge"
+                                style="background-color: {{ $tag->color }}">{{ $tag->label }}</span>
+                        @empty
+                            Non ci sono tag abbinati
+                        @endforelse
+                    </td>
+                    <td class="col-2">
+                        <a href="{{ route('user.posts.show', $post->id) }}" class="btn btn-primary mr-2">View</a>
+                        <a href="{{ route('user.posts.edit', $post->id) }}" class="btn btn-warning mr-2">Edit</a>
+                        <form action="{{ route('user.posts.destroy', $post->id) }}" method="POST"
+                            class="d-inline delete-form" data-name="{{ $post->title }}">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="Delete" class="btn btn-danger">
+                        </form>
+                    </td>
+                    </tr>
+                @empty
+                    Non ci sono post!
+        @endforelse
+        </tbody>
+        </table>
         @endif
     </div>
     <div class="bg-dark py-3 pl-5">

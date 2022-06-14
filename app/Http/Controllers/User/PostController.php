@@ -4,12 +4,14 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendNewMail;
 use App\User;
 
 class PostController extends Controller
@@ -59,6 +61,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $user = Auth::user();
         $currentUserId = Auth::id();
 
         $new_post = new Post();
@@ -72,9 +75,12 @@ class PostController extends Controller
         $new_post->save();
 
         if (array_key_exists('tags', $data) && array_key_exists('categories', $data)) {
-            $new_post->Tags()->attach($data['tags']);
-            $new_post->Categories()->attach($data['categories']);
+            $new_post->Tags()->sync($data['tags']);
+            $new_post->Categories()->sync($data['categories']);
         }
+
+        $email = new SendNewMail($new_post);
+        Mail::to($user->email)->send($email);
 
         return redirect()->route('user.posts.index', $new_post)->with('message-create', "$new_post->title");
     }
@@ -119,17 +125,18 @@ class PostController extends Controller
         $data = $request->all();
         $post['slug'] = Str::slug($request->title, '-');
 
-        if (!array_key_exists('tags', $data)) {
-            $post->Tags()->detach();
-        } else {
-            $post->Tags()->sync($data['tags']);
+        if (array_key_exists('image', $data)) {
+            if ($post->image) Storage::delete($post->image);
+
+            $image_url = Storage::put('post_images', $data['image']);
+            $data['image'] = $image_url;
         }
 
-        if (!array_key_exists('categories', $data)) {
-            $post->Categories()->detach();
-        } else {
+        if (array_key_exists('tags', $data) && array_key_exists('categories', $data)) {
+            $post->Tags()->sync($data['tags']);
             $post->Categories()->sync($data['categories']);
         }
+
         $post->update($data);
 
         return redirect()->route('user.posts.show', $post)->with('message-edit', "$post->title");
@@ -143,6 +150,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if ($post->image) Storage::delete($post->image);
         $post->delete();
 
         return redirect()->route('user.posts.index', compact('post'))->with('message-delete', "$post->title");
