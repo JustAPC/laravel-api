@@ -2,15 +2,17 @@
 
 @section('content')
     <div class="col-6 mx-auto pt-5">
-        <form action="{{ route('user.posts.store') }}" method="POST">
+        <form action="{{ route('user.posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="media align-middle">
                 <div>
-                    <img src="https://i.ibb.co/8DF4DNM/Nuovo-progetto.png" class="mr-3 d-block" alt="...">
+                    {{-- <img src="https://i.ibb.co/8DF4DNM/Nuovo-progetto.png" class="mr-3 d-block" alt="...">
                     <div class="mt-3">
                         <p>Image URL:</p>
                         <input type="url" name="image" value="">
-                    </div>
+                    </div> --}}
+                    <label for="image" class="d-block">Carica un immagine:</label>
+                    <input type="file" name="image" id="image">
                 </div>
                 <div class="media-body">
                     <div>
