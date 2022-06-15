@@ -1,19 +1,17 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <Header />
-                </div>
+            <div class="col-md-10">
+                <Posts />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import Header from "./Header.vue";
+import Posts from "./partials/Posts.vue";
 export default {
     name: "App",
-    components: { Header },
+    components: { Posts },
 };
 </script>

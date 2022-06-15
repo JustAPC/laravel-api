@@ -4,14 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script defer src="{{ asset('js/front.js') }}"></script>
     <title>Laravel</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
     <!-- Styles -->
-    <style>
+    {{-- <style>
         html,
         body {
             background-color: #fff;
@@ -69,7 +68,11 @@
             left: 10px;
             top: 18px;
         }
-    </style>
+    </style> --}}
+
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script defer src="{{ asset('js/front.js') }}"></script>
+    <script defer src="{{ asset('js/app.js') }}"></script>
 </head>
 
 <body>
@@ -96,9 +99,9 @@
             </div>
         @endif
 
-        <div class="content">
-            <div id="root"></div>
-        </div>
+
+
+        <div id="root"></div>
     </div>
 </body>
 
